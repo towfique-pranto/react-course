@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <title>React Display as you Type</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      function App() {
+        const [text, setText] = React.useState("");
+
+        return (
+          <div>
+            <input
+              value={text}
+              onChange={(input) => {
+                setText(input.target.value);
+              }}
+            />
+            <button
+              onClick={() => {
+                setText("");
+              }}
+            >
+              Reset
+            </button>
+            <button
+              onClick={() => {
+                setText("Alice");
+              }}
+            >
+              Example
+            </button>
+            <p>Hello {text}</p>
+          </div>
+        );
+      }
+
+      const container = document.querySelector(".js-container");
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>
