@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Chatbot</title>
+    <title>React Chatbot</title>
   </head>
   <body>
     <div class="js-container"></div>
@@ -14,44 +14,73 @@
     <script type="text/babel">
       function ChatInput({ chatMessages, setChatMessages }) {
         const [inputText, setInputText] = React.useState("");
+
         function saveInputText(event) {
           setInputText(event.target.value);
         }
 
-        function sendMessage() {
+        const [isLoading, setIsLoading] = React.useState(false);
+
+        async function sendMessage() {
+          if (isLoading || inputText.trim() === "") {
+            return;
+          }
+          const messageText = inputText;
+          setInputText("");
           const newChatMessages = [
             ...chatMessages,
             {
-              message: inputText,
+              message: messageText,
               sender: "user",
               id: crypto.randomUUID(),
+            },
+            {
+              message: "Loading...",
+              sender: "robot",
+              id: "loading-message-id",
             },
           ];
 
           setChatMessages(newChatMessages);
 
-          const response = Chatbot.getResponse(inputText);
+          setIsLoading(true);
+          const response = await Chatbot.getResponseAsync(messageText);
+          setIsLoading(false);
+
           setChatMessages([
-            ...newChatMessages,
+            ...chatMessages,
+            {
+              message: messageText,
+              sender: "user",
+              id: crypto.randomUUID(),
+            },
             {
               message: response,
               sender: "robot",
               id: crypto.randomUUID(),
             },
           ]);
-
-          setInputText("");
         }
 
         return (
           <>
             <input
+              disabled={isLoading}
+              onKeyDown={(event) => {
+                event.key === "Enter" && sendMessage();
+                event.key === "Escape" && setInputText("");
+              }}
               placeholder="Send a message to Chatbot"
               size="30"
               onChange={saveInputText}
               value={inputText}
             />
-            <button onClick={sendMessage}>Send</button>
+            <button
+              onClick={sendMessage}
+              disabled={isLoading || inputText.trim() === ""}
+            >
+              Send
+            </button>
           </>
         );
       }
@@ -62,13 +91,13 @@
         //const { message, sender } = props;
 
         /*if (sender === "robot") {
-          return (
-            <div>
-              <img src="robot.png" width="50" />
-              {message}
-            </div>
-          );
-        }*/
+            return (
+              <div>
+                <img src="robot.png" width="50" />
+                {message}
+              </div>
+            );
+          }*/
         return (
           <div>
             {sender === "robot" && <img src="robot.png" width="50" />}
