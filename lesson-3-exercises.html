@@ -11,18 +11,47 @@
 
     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
     <script type="text/babel">
-      const button = (
-        <button
-          onClick={() => {
-            console.log("Clicked");
-          }}
-        >
-          Clicked 0 times
-        </button>
-      );
+      function App() {
+        const [count, setCount] = React.useState(0);
+        function Counter() {
+          return (
+            <>
+              <button
+                onClick={() => {
+                  setCount(count + 1);
+                }}
+              >
+                {count === 1
+                  ? `Clicked ${count} time`
+                  : `Clicked ${count} times`}
+              </button>
+            </>
+          );
+        }
+        function Reset() {
+          return (
+            <>
+              <button
+                onClick={() => {
+                  setCount(0);
+                }}
+              >
+                Reset
+              </button>
+            </>
+          );
+        }
+        return (
+          <>
+            <Counter />
+            <Counter />
+            <Reset />
+          </>
+        );
+      }
 
       const container = document.querySelector(".js-container");
-      ReactDOM.createRoot(container).render(button);
+      ReactDOM.createRoot(container).render(<App />);
     </script>
   </body>
 </html>
