@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/dayjs.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      function App() {
+        let time = dayjs().format("HH:mm:ss");
+        const [currentTime, setCurrentTime] = React.useState(time);
+        React.useEffect(() => {
+          const intervalId = setInterval(() => {
+            time = dayjs().format("HH:mm:ss");
+            setCurrentTime(time);
+            console.log("Time updated");
+          }, 1000);
+          return () => {
+            clearInterval(intervalId);
+            console.log("Interval cleared!");
+          };
+        }, []);
+        return (
+          <div>
+            <p>Current time: {currentTime}</p>
+          </div>
+        );
+      }
+      const container = document.querySelector(".js-container");
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>
