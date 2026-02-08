@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+  <head>
+    <title>React Basics</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .welcome-message {
+        margin: 0px;
+        font-size: 25px;
+      }
+      .login-input {
+        padding: 10px 15px;
+        border-radius: 5px;
+        border-width: 1px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+      }
+      .btn {
+        background-color: rgb(0, 123, 255);
+        padding: 10px 15px;
+        margin-top: 10px;
+        margin-right: 5px;
+        border-radius: 5px;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      function LoginForm() {
+        const [showPassword, setShowPassword] = React.useState(true);
+        return (
+          <>
+            <div>
+              <input className="login-input" placeholder="Email" />
+            </div>
+            <div>
+              <input
+                type={showPassword ? "password" : "text"}
+                className="login-input"
+                placeholder="Password"
+              />
+              <button
+                onClick={() => {
+                  setShowPassword(!showPassword);
+                }}
+              >
+                {showPassword ? "show" : "hide"}
+              </button>
+            </div>
+            <button className="btn">Login</button>
+            <button className="btn">Sign up</button>
+          </>
+        );
+      }
+      function App() {
+        return (
+          <>
+            <p className="welcome-message">Hello, welcome to my website</p>;
+            <LoginForm />
+          </>
+        );
+      }
+
+      const container = document.querySelector(".js-container");
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>
