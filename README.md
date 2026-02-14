@@ -1,4 +1,4 @@
-# React Course Practice Repo
+# React Course Practice Repo - `In progress`
 
 This repository contains my hands-on exercises while learning React.  
 The course is still in progress, so this repo will continue to grow with new files and projects.
